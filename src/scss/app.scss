@@ -1,0 +1,23 @@
+@import "reset";
+@import "base";
+
+body{
+  font-family: $font-family;
+}
+
+
+.container{
+  max-width: 1140px;
+  margin: 0 auto;
+  padding-left: 30px;
+  padding-right: 30px;
+  @include media-query(desktop) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+a{
+  color: #303840;
+  text-decoration: none;
+}

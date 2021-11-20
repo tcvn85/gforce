@@ -1,0 +1,19 @@
+@import "_variables";
+
+@mixin media-query($size) {
+  @if $size == mobile {
+    @media only screen and (min-width: $mobile-width) { 
+      @content; 
+    } 
+  }
+  @else if $size == tablet {
+    @media only screen and (min-width: $tablet-width) {
+      @content; 
+    }
+  }
+  @else if $size == desktop {
+    @media only screen and (min-width: $desktop-width) { 
+      @content;
+    }
+  }
+}
