@@ -2,12 +2,15 @@
   <div class="page-book-detail">
     <Loading v-if="loading" />
     <template v-else>
-      
+
       <div class="message error" v-if="error">{{ errorMsg }}</div>
 
       <div class="book-detail" v-else>
         <div class="book-img">
-          <img :src="book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : noImage" :alt="book.volumeInfo.title" />
+          <img
+            :src="book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : noImage"
+            :alt="book.volumeInfo.title"
+          />
         </div>
         <div class="book-info">
           <h1 class="book-title book-props">{{ book.volumeInfo.title }}</h1>
@@ -30,7 +33,9 @@
             {{ book.volumeInfo.pageCount }}
           </div>
           <div class="book-desc book-props" v-html="book.volumeInfo.description"></div>
-          <a class="book-btn" target="_blank" :href="book.volumeInfo.previewLink">Preview this book</a>
+          <a class="book-btn" target="_blank" :href="book.volumeInfo.previewLink">
+            Preview this book
+          </a>
         </div>
       </div>
     </template>
@@ -39,52 +44,52 @@
 
 
 <script>
-import Api from "@/api";
+import Api from '@/api';
 import Loading from '@/components/Loading.vue';
-import noImage from "@/assets/no-image.png";
+import noImage from '@/assets/no-image.png';
 
 export default {
-  name: 'BookDetail',
+	name: 'BookDetail',
 
-  components: {
-    Loading,
-  },
+	components: {
+		Loading,
+	},
 
-  data() {
-    return {
-      book: null,
-      loading: true,
-      error: false,
-      errorMsg: "",
-      noImage: noImage
-    }
-  },
+	data() {
+		return {
+			book: null,
+			loading: true,
+			error: false,
+			errorMsg: '',
+			noImage,
+		};
+	},
 
-  created() {
-    this.fetchData();
-  },
+	created() {
+		this.fetchData();
+	},
 
-  watch: {
-    '$route': 'fetchData'
-  },
+	watch: {
+		$route: 'fetchData',
+	},
 
-  methods: {
-    fetchData () {
-      const { id } = this.$route.params;
-      Api.getBookById(id)
-        .then(res => {
-          this.book = res.data;
-        })
-        .catch((error) => {
-          this.error = true;
-          this.errorMsg = "No Book found.";
-          console.log(error);
-        }).finally( () => {
-          this.loading = false; 
-        });
-    },
-  },
-}
+	methods: {
+		fetchData() {
+			const { id } = this.$route.params;
+			Api.getBookById(id)
+				.then((res) => {
+					this.book = res.data;
+				})
+				.catch((error) => {
+					this.error = true;
+					this.errorMsg = 'No Book found.';
+					console.log(error);
+				}).finally(() => {
+					this.loading = false;
+				});
+		},
+	},
+};
 </script>
 
 <style lang="scss" scoped>

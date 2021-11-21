@@ -1,17 +1,17 @@
 <template>
   <div class="loading">
-	  <span class="sr-only">Loading...</span>
-	</div>
+		<span class="sr-only">Loading...</span>
+  </div>
 </template>
 
 <script>
 export default {
-  name: "Loading",
-}
+	name: 'Loading',
+};
 </script>
 
 <style scoped>
-	.loading{
+	.loading {
 		text-align: center;
 		font-weight: 500;
 	}

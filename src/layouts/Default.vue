@@ -1,19 +1,19 @@
 <template>
   <div class="container">
-  	<Header />
+    <Header />
     <main class="main">
-  		<slot></slot>
+      <slot></slot>
     </main>
   </div>
 </template>
 
 <script>
-import Header from "@/components/Header";
+import Header from '@/components/Header.vue';
 
 export default {
-  components: {
-    Header
-  }
+	components: {
+		Header,
+	},
 };
 </script>
 

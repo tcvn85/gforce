@@ -7,15 +7,15 @@
 </template>
 
 <script>
-const defaultLayout = "default";
+const defaultLayout = 'default';
 export default {
-  name: "app",
-  computed: {
-    layout() {
-      return (this.$route.meta.layout || defaultLayout) + "-layout";
-    }
-  }
-}
+	name: 'app',
+	computed: {
+		layout() {
+			return `${this.$route.meta.layout || defaultLayout}-layout`;
+		},
+	},
+};
 </script>
 
 <style lang="scss">

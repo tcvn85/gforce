@@ -7,13 +7,13 @@
 
 <script>
 export default {
-  name: "Header",
-  data () {
-    return {
-      msg: "Technical Challenge"
-    }
-  }
-}
+	name: 'Header',
+	data() {
+		return {
+			msg: 'Technical Challenge',
+		};
+	},
+};
 </script>
 
 <style lang="scss" scoped>

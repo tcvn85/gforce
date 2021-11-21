@@ -2,15 +2,26 @@
   <div class="page-book-list">
     <Loading v-if="loading" />
     <template v-else>
-      <BookToolbar :startIndex="filter.searchText.length === 0 ? startIndex : books.length" :totalItems="totalItems" v-on:updateFilter="onUpdateFilter" />
+      <BookToolbar
+        :startIndex="filter.searchText.length === 0 ? startIndex : books.length"
+        :totalItems="totalItems"
+        v-on:updateFilter="onUpdateFilter"
+      />
       <div class="book-list-content" v-if="books.length > 0">
         <ul class="book-list">
           <li class="book-item" v-for="(book, index) in books" :key="index">
-            <BookItem :book="book" />  
+            <BookItem :book="book" />
           </li>
         </ul>
         <Loading v-if="moreLoading" />
-        <a v-if="startIndex<totalItems" v-on:click.stop.prevent="loadMore" class="load-more" href="#">Load more</a>
+        <a
+          v-if="startIndex<totalItems"
+          v-on:click.stop.prevent="loadMore"
+          class="load-more"
+          href="#"
+        >
+          Load more
+        </a>
       </div>
       <div class="message" v-else>
         No book found.
@@ -20,93 +31,97 @@
 </template>
 
 <script>
-import { get, orderBy } from "lodash";
-import Api from "@/api";
-import Loading from "@/components/Loading.vue";
-import BookToolbar from "@/components/BookToolbar.vue";
-import BookItem from "@/components/BookItem.vue";
+import { get, orderBy } from 'lodash';
+import Api from '@/api';
+import Loading from '@/components/Loading.vue';
+import BookToolbar from '@/components/BookToolbar.vue';
+import BookItem from '@/components/BookItem.vue';
 
 export default {
-  name: "BookList",
-  components: {
-    Loading,
-    BookToolbar,
-    BookItem
-  },
+	name: 'BookList',
+	components: {
+		Loading,
+		BookToolbar,
+		BookItem,
+	},
 
-  data() {
-    return {
-      data: [],
-      totalItems: 0,
-      q: "steven+king",
-      startIndex: 0,
-      maxResults: 40,
-      filter: {
-        searchText: "",
-        searchType: "all",
-        sortBy: "volumeInfo.publishedDate",
-        sortOrder: "desc"
-      },
-      loading: true,
-      moreLoading: false,
-      error: false      
-    }
-  },
+	data() {
+		return {
+			data: [],
+			totalItems: 0,
+			q: 'steven+king',
+			startIndex: 0,
+			maxResults: 40,
+			filter: {
+				searchText: '',
+				searchType: 'all',
+				sortBy: 'volumeInfo.publishedDate',
+				sortOrder: 'desc',
+			},
+			loading: true,
+			moreLoading: false,
+			error: false,
+		};
+	},
 
-  computed: {
-    books: function() {
-      const { data, filter: { searchType, searchText, sortBy, sortOrder }} = this;
-      let bookList = [];
+	computed: {
+		books() {
+			const {
+				data, filter: {
+					searchType, searchText, sortBy, sortOrder,
+				},
+			} = this;
+			let bookList = [];
 
-      if (searchType === "all") {
-        bookList = data.filter(book => JSON.stringify(book.volumeInfo).includes(searchText));
-      } else {
-        bookList = data.filter(book => {
-          const bookField = get(book, searchType);
-          return bookField && bookField.toLowerCase().includes(searchText.toLowerCase())
-        });
-      }
+			if (searchType === 'all') {
+				bookList = data.filter(book => JSON.stringify(book.volumeInfo).includes(searchText));
+			} else {
+				bookList = data.filter((book) => {
+					const bookField = get(book, searchType);
+					return bookField && bookField.toLowerCase().includes(searchText.toLowerCase());
+				});
+			}
 
-      return orderBy(bookList, sortBy, sortOrder);
-    }
-  },
+			return orderBy(bookList, sortBy, sortOrder);
+		},
+	},
 
-  created() {
-   this.fetchData(this.q, this.startIndex, this.maxResults);
-  },
+	created() {
+		this.fetchData(this.q, this.startIndex, this.maxResults);
+	},
 
-  methods: {
-    fetchData (q, startIndex, maxResults) {
-      this.moreLoading = true;
-      Api.getBooks(q, startIndex, maxResults).then(res => {
-          this.data.push(...res.data.items);
-          this.totalItems = res.data.totalItems;
+	methods: {
+		fetchData(q, startIndex, maxResults) {
+			this.moreLoading = true;
+			Api.getBooks(q, startIndex, maxResults).then((res) => {
+				this.data.push(...res.data.items);
+				this.totalItems = res.data.totalItems;
 
-          if (this.totalItems > startIndex) {
-            this.startIndex += maxResults;
-          }
-        })
-        .catch(err => {
-          this.error = true;
-          console.log(err);
-        })
-        .finally(() => {
-          this.loading = false;
-          this.moreLoading = false;
-        });
-    },
-    loadMore() {
-      this.fetchData(this.q, this.startIndex, this.maxResults);
-    },
+				if (this.totalItems > startIndex) {
+					this.startIndex += maxResults;
+				}
+			})
+				.catch((err) => {
+					this.error = true;
+					console.log(err);
+				})
+				.finally(() => {
+					this.loading = false;
+					this.moreLoading = false;
+				});
+		},
+		loadMore() {
+			this.fetchData(this.q, this.startIndex, this.maxResults);
+		},
 
-    onUpdateFilter(filter) {
-      this.filter = {
-        ...this.filter,
-        ...filter
-      }
-    }
-  }
-}
+		onUpdateFilter(filter) {
+			this.filter = {
+				...this.filter,
+				...filter,
+			};
+		},
+	},
+};
 </script>
 
 <style lang="scss" scoped>
@@ -146,5 +161,5 @@ export default {
       background: lighten($base-color, 10%);
     }
   }
-  
+
 </style>

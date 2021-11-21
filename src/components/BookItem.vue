@@ -8,18 +8,19 @@
 </template>
 
 <script>
-import noImage from "@/assets/no-image.png";
+import noImage from '@/assets/no-image.png';
+
 export default {
-  name: "BookItem",
-  props: {
-    book: Object,
-  },
-  data () {
-    return {
-      noImage: noImage
-    }
-  }
-}
+	name: 'BookItem',
+	props: {
+		book: Object,
+	},
+	data() {
+		return {
+			noImage,
+		};
+	},
+};
 </script>
 
 <style lang="scss" scoped>

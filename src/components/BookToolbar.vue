@@ -25,54 +25,55 @@
 </template>
 
 <script>
-import { debounce } from "lodash";
+import { debounce } from 'lodash';
+
 export default {
-  name: 'BookToolbar',
-  props: {
+	name: 'BookToolbar',
+	props: {
   	startIndex: Number,
   	totalItems: Number,
-  },
+	},
 
-  data() {
+	data() {
   	return {
   		filter: {
   			searchType: 'all',
   			searchText: '',
 	  		sortBy: 'volumeInfo.publishedDate',
-	  		sortOrder: 'desc'
-	  	}
-  	}
-  },
-  
-  methods: {
-  	updateSearchType: function(event) {
+	  		sortOrder: 'desc',
+	  	},
+  	};
+	},
+
+	methods: {
+  	updateSearchType() {
 			this.$emit('updateFilter', this.filter);
   	},
 
-  	updateTextSearch: debounce(function(event) {
+  	updateTextSearch: debounce(function (event) {
   		this.filter = {
   			...this.filter,
   			searchText: event.target.value.trim(),
-  		}
+  		};
   		this.$emit('updateFilter', this.filter);
   	}, 500),
 
-  	updateSortBy: function(event) {
+  	updateSortBy() {
   		this.$emit('updateFilter', this.filter);
   	},
 
-  	updateSortOrder : function() {
+  	updateSortOrder() {
   		if (this.filter.sortOrder === 'asc') {
-      	this.filter = {...this.filter, sortOrder: 'desc'};
+      	this.filter = { ...this.filter, sortOrder: 'desc' };
       	this.$refs.sortOrder.innerText = '↑';
-      } else {
-      	this.filter = {...this.filter, sortOrder: 'asc'};
+			} else {
+      	this.filter = { ...this.filter, sortOrder: 'asc' };
       	this.$refs.sortOrder.innerText = '↓';
-      }
-      this.$emit('updateFilter', this.filter);
+			}
+			this.$emit('updateFilter', this.filter);
   	},
-  }
-}
+	},
+};
 </script>
 
 <style lang="scss" scoped>
@@ -102,7 +103,7 @@ export default {
     	border: 1px solid #ccc;
     	padding: .25rem .75rem;
     	font-size: 1rem;
-    	&:focus{    		
+    	&:focus{
     		outline: none;
     	}
     }
@@ -131,7 +132,7 @@ export default {
     	text-align: center;
     }
     .sort-type{
-    	width: calc(100% - 95px);
+			width: calc(100% - 95px);
     }
   }
 </style>
